@@ -1,5 +1,9 @@
 # redis-search
 
+### query params
+```
+?filters[top500]&filters[cousine]=pizza&filters[price]&sort=alpha
+```
 
 ### filter by cousine, delivery,  top 500
 ```
