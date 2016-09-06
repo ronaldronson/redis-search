@@ -25,11 +25,11 @@ function save(i, done) {
 
     multi
         .sadd(KEYS.IDS, i)
+        .set(KEYS.ID + i, JSON.stringify(rest))
         .sadd(KEYS.FILTER_COUSINE + rest.cousines, i)
-        .set(i, JSON.stringify(rest))
+        .set(KEYS.WEIGHT_NAME + i, rest.name)
+        .set(KEYS.WEIGHT_REVIEWS + i, rest.reviews)
         .set(KEYS.WEIGHT_DISTANCE + i, rest.distance)
-        .set(KEYS.WEIGHT_REVIEWS + i, rest.reviews)
-        .set(KEYS.WEIGHT_REVIEWS + i, rest.reviews)
         .exec((err, res) => {
             redis.print(err, res)
             i ? save(--i, done) : done()
