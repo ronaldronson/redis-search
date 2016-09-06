@@ -2,6 +2,8 @@ module.exports = {
     ID: 'ID:',
     IDS: 'IDS',
 
+    TMP: 'TMP:',
+
     FILTER_FREE_DELIVERY: 'FILTER_FREE_DELIVERY',
     FILTER_TOP_500: 'FILTER_TOP_500',
     FILTER_COUSINE: 'FILTER_COUSINE:',
