@@ -2,7 +2,7 @@ const KEYS = require('./constants')
 const _ = require('./utils')
 const redis = require("redis")
 const client = redis.createClient()
- 
+
 client.on("error", (err) => console.log("Error " + err))
 
 const data = {
@@ -116,7 +116,7 @@ function save(i, done) {
     !rest.min_delivery_value && multi.sadd(KEYS.FILTER_FREE_DELIVERY, i)
     !!rest.Top500 && multi.sadd(KEYS.FILTER_TOP_500, i)
 
-    rest.cuisines.map(cuisine => multi.sadd(KEYS.FILTER_COUSINE + _.stripStr(cuisine), i))
+    rest.cuisines.map(cuisine => multi.sadd(KEYS.FILTER_CUISINE + _.stripStr(cuisine), i))
 
     multi
         .sadd(KEYS.IDS, i)
@@ -135,4 +135,3 @@ save(process.argv[2] | 0 || 10, () => {
     console.timeEnd('generating time')
     client.quit()
 })
-

@@ -7,7 +7,7 @@ const redis = require("redis")
 const client = redis.createClient()
 
 const filtersList = {
-  cousine: (val) => KEYS.FILTER_COUSINE + _.stripStr(val),
+  cuisine: (val) => KEYS.FILTER_CUISINE + _.stripStr(val),
   delivery: () => KEYS.FILTER_FREE_DELIVERY,
   top500: () => KEYS.FILTER_TOP_500,
 }
@@ -38,10 +38,12 @@ http.createServer((req, res) => {
   const query = qs.parse(params.query)
 
   if ('/' === params.pathname) {
-    const filterComms = [KEYS.TMP, ...filter(query.filters)]
+    const filterComms = [KEYS.TMP, KEYS.LOC, ...filter(query.filters)]
     const sortComms = [KEYS.TMP, ...sort(query.sort), 'GET', KEYS.ID + '*']
+    client.sadd(KEYS.LOC, Array.apply(null, {length: 100}).map((k, i) => i))
     client.sinterstore(...filterComms, (err) => {
       client.sort(...sortComms, (err, list) => {
+        client.del(KEYS.LOC)
         if (err) {
           res.writeHead(500)
           res.end(String(err))
